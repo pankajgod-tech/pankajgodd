@@ -3,7 +3,6 @@
 # Ask Doubt on telegram @KingVJ01
 
 from pyrogram import Client
-from pyrogram.types import BotCommand
 from config import API_ID, API_HASH, BOT_TOKEN, STRING_SESSION, LOGIN_SYSTEM
 
 if STRING_SESSION is not None and LOGIN_SYSTEM == False:
@@ -28,27 +27,7 @@ class Bot(Client):
 
 	async def start(self):
     await super().start()
-
-    await self.set_bot_commands([
-        BotCommand("start", "CHECK I'M ALIVE"),
-        BotCommand("help", "HELP MENU"),
-        BotCommand("batch", "DOWNLOAD MULTIPLE POST AT A TIME"),
-        BotCommand("settings", "CUSTOMIZE YOUR SETTINGS"),
-        BotCommand("login", "LOGIN YOUR ACCOUNT"),
-        BotCommand("logout", "LOGOUT YOUR ACCOUNT"),
-        BotCommand("set_thumb", "SET YOUR THUMBNAIL"),
-        BotCommand("view_thumb", "VIEW YOUR THUMBNAIL"),
-        BotCommand("del_thumb", "DELETE YOUR THUMBNAIL"),
-        BotCommand("set_caption", "SET CUSTOM CAPTION"),
-        BotCommand("see_caption", "SEE CUSTOM CAPTION"),
-        BotCommand("del_caption", "DELETE CUSTOM CAPTION"),
-        BotCommand("setchat", "SET YOUR CHANNEL"),
-        BotCommand("remchat", "DELETE YOUR CHANNEL"),
-        BotCommand("cancel", "CANCEL ONGOING TASK"),
-        BotCommand("broadcast", "BROADCAST MESSAGE (OWNER ONLY)")
-    ])
-
-    print("Bot Started Powered By @VJ_Bots")
+    print('Bot Started Powered By @VJ_Bots')
     
 
     async def stop(self, *args):
