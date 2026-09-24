@@ -1,4 +1,4 @@
-# Don't Remove Credit Tg - @VJ_Bots
+in# Don't Remove Credit Tg - @VJ_Bots
 # Subscribe YouTube Channel For Amazing Bot https://youtube.com/@Tech_VJ
 # Ask Doubt on telegram @KingVJ01
 
@@ -36,7 +36,7 @@ DB_URI = os.environ.get("DB_URI", "mongodb+srv://pankajgtd:pankajsaini@cluster0.
 DB_NAME = os.environ.get("DB_NAME", "pankajgodd")
 
 # Increase time as much as possible to avoid floodwait, spamming and tg account ban issues.
-WAITING_TIME = int(os.environ.get("WAITING_TIME", "300")) # time in seconds
+WAITING_TIME = int(os.environ.get("WAITING_TIME", "100")) # time in seconds
 
 # If You Want Error Message In Your Personal Message Then Turn It True Else If You Don't Want Then Flase
 ERROR_MESSAGE = bool(os.environ.get('ERROR_MESSAGE', True))
