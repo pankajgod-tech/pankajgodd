@@ -144,94 +144,48 @@ async def save(client: Client, message: Message):
             acc = TechVJUser
 				
         batch_temp.IS_BATCH[message.from_user.id] = False
+batch_temp.IS_BATCH[message.from_user.id] = False
+for msgid in range(fromID, toID+1):
+    if batch_temp.IS_BATCH.get(message.from_user.id): break
 
-try:
-    for msgid in range(fromID, toID + 1):
-
-        if batch_temp.IS_BATCH.get(message.from_user.id):
-            break
-
+    # private
+    if "https://t.me/c/" in message.text:
+        chatid = int("-100" + datas[4])
         try:
-            # PRIVATE
-            if "https://t.me/c/" in message.text:
-                chatid = int("-100" + datas[4])
-
-                try:
-                    await handle_private(
-                        client, acc, message, chatid, msgid
-                    )
-                except Exception as e:
-                    if ERROR_MESSAGE:
-                        await client.send_message(
-                            message.chat.id,
-                            f"Error: {e}",
-                            reply_to_message_id=message.id
-                        )
-
-            # BOT
-            elif "https://t.me/b/" in message.text:
-                username = datas[4]
-
-                try:
-                    await handle_private(
-                        client, acc, message, username, msgid
-                    )
-                except Exception as e:
-                    if ERROR_MESSAGE:
-                        await client.send_message(
-                            message.chat.id,
-                            f"Error: {e}",
-                            reply_to_message_id=message.id
-                        )
-
-            # PUBLIC
-            else:
-                username = datas[3]
-
-                try:
-                    msg = await client.get_messages(username, msgid)
-
-                    try:
-                        await client.copy_message(
-                            message.chat.id,
-                            msg.chat.id,
-                            msg.id,
-                            reply_to_message_id=message.id
-                        )
-                    except Exception:
-                        await handle_private(
-                            client, acc, message, username, msgid
-                        )
-
-                except UsernameNotOccupied:
-                    await client.send_message(
-                        message.chat.id,
-                        "The username is not occupied by anyone",
-                        reply_to_message_id=message.id
-                    )
-
-                except Exception as e:
-                    if ERROR_MESSAGE:
-                        await client.send_message(
-                            message.chat.id,
-                            f"Error: {e}",
-                            reply_to_message_id=message.id
-                        )
-
+            await handle_private(client, acc, message, chatid, msgid)
         except Exception as e:
-            print(f"Batch Error {msgid}: {e}")
-            continue
+            if ERROR_MESSAGE == True:
+                await client.send_message(message.chat.id, f"Error: {e}", reply_to_message_id=message.id)
 
-        await asyncio.sleep(WAITING_TIME)
-
-finally:
-    if LOGIN_SYSTEM:
+    # bot
+    elif "https://t.me/b/" in message.text:
+        username = datas[4]
         try:
-            await acc.disconnect()
-        except:
-            pass
+            await handle_private(client, acc, message, username, msgid)
+        except Exception as e:
+            if ERROR_MESSAGE == True:
+                await client.send_message(message.chat.id, f"Error: {e}", reply_to_message_id=message.id)
 
-    batch_temp.IS_BATCH[message.from_user.id] = True
+    # public
+    else:
+        username = datas[3]
+
+        try:
+            msg = await client.get_messages(username, msgid)
+        except UsernameNotOccupied:
+            await client.send_message(message.chat.id, "The username is not occupied by anyone", reply_to_message_id=message.id)
+            return
+
+        try:
+            await client.copy_message(message.chat.id, msg.chat.id, msg.id, reply_to_message_id=message.id)
+        except:
+            try:
+                await handle_private(client, acc, message, username, msgid)
+            except Exception as e:
+                if ERROR_MESSAGE == True:
+                    await client.send_message(message.chat.id, f"Error: {e}", reply_to_message_id=message.id)
+
+    await asyncio.sleep(WAITING_TIME)
 
 
 # handle private
